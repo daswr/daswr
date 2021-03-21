@@ -1,4 +1,4 @@
-import pulsectl,re
+import pulsectl,re,psutil,json
 
 
 PREFIX="daswr"
@@ -82,21 +82,68 @@ def getSinks():
     return sinks
 
 
+def listInputs():
+    inputs=[]
+    for i in PULSE.sink_input_list():
+        props=i.proplist
+        if not "application.name" in props or not "application.process.id" in props: continue
+        inputs.append({
+            "name":props["application.name"],
+            "pid":props["application.process.id"],
+            "data":i,
+            "index":i.index
+        })
+    return inputs
+
+def getOrCreateSource(sink,sourceName):
+    # find if exists
+    module_id= PULSE.module_load("module-remap-source","master="+sink+" source_name="+sourceName+"   source_properties=device.description="+sourceName )
 
 
-def rewire(mic,app,out):
-    getOrCreateNullSink(PREFIX+"_AppProxy")
+# application.process.id
+def rewire(mic,app_pids,out):
+
+    appSink=getOrCreateNullSink(PREFIX+"_AppProxy")
     getOrCreateNullSink(PREFIX+"_MicProxy")
     getOrCreateNullSink(PREFIX+"_DiscordMix")
 
+    hasPids=app_pids and len(app_pids)>0
+    app_inputs=[]
+    if hasPids:
+        inputs=listInputs()
+        for i in inputs:
+            if int(i["pid"]) in app_pids :
+                app_inputs.append(i["index"])
+        
+
+
     getOrCreateLoopBack(mic,PREFIX+"_MicProxy")
     getOrCreateLoopBack(PREFIX+"_MicProxy.monitor",PREFIX+"_DiscordMix")
+
     getOrCreateLoopBack(PREFIX+"_AppProxy.monitor",PREFIX+"_DiscordMix")
     getOrCreateLoopBack(PREFIX+"_AppProxy.monitor",out)
 
+    for i in app_inputs:
+        print("Link ",i," to ",appSink.index)
+        PULSE.sink_input_move(i,appSink.index)
 
-APP_PID=""
+    getOrCreateSource(PREFIX+"_DiscordMix.monitor","DiscordMixedDevice")
+
+
+def findPidsByName(name):
+    pids=[]
+    for proc in psutil.process_iter():
+        pinfo = proc.as_dict(attrs=['pid', 'name'])
+        if pinfo["name"].lower()==name.lower():
+            pids.append(pinfo["pid"])
+    return pids
+
+print(getSources())
+print(getSinks())
+#print(getProcesses()) #todo
+
+APP_NAME="chrome"
+APP_PIDS= findPidsByName(APP_NAME)
 MIC_ID="mic_denoised_out.monitor"
 OUT_ID="alsa_output.pci-0000_00_1b.0.analog-stereo"
-
-rewire(MIC_ID,APP_PID,OUT_ID)
+rewire(MIC_ID,APP_PIDS,OUT_ID)
