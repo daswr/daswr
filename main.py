@@ -1,6 +1,8 @@
 import pulsectl,re
 
-PULSE=pulsectl.Pulse('dasw') 
+
+PREFIX="daswr"
+PULSE=pulsectl.Pulse(PREFIX) 
 FIND_SINK_NAME_IN_ARGS_RE= re.compile('sink_name=([A-Z0-9_]+)', re.IGNORECASE)
 FIND_SRC_IN_ARGS_RE= re.compile('source=([A-Z0-1_]+)\.monitor', re.IGNORECASE)
 FIND_SINK_IN_ARGS_RE= re.compile('sink=([A-Z0-9_]+)', re.IGNORECASE)
@@ -61,20 +63,40 @@ def getOrCreateLoopBack(src,dest):
     module_id=findModuleIdBySourceAndSink(src,dest)
     if not module_id:
         print(src,"-",dest,"not found. Create")
-        module_id= PULSE.module_load("module-loopback","source="+src+".monitor sink="+dest)
+        module_id= PULSE.module_load("module-loopback","source="+src+" sink="+dest)
     else:
         print("Found loopback at",module_id)
     return module_id
 
+def getSources():
+    sources=[]
+    for s in PULSE.source_list():
+        sources.append(s)
+    return sources
 
-print("Start")
-# print(findModuleIdBySinkName("Test"))
 
-print(getOrCreateNullSink("Test1"))
-print(getOrCreateNullSink("Test2"))
-print(getOrCreateLoopBack("Test1","Test2"))
-# for m in PULSE.source_list():
-#     print(m)
-deleteSinkByName("Test1")
-deleteSinkByName("Test2")
-deleteLoopBackBySourceAndDest("Test1","Test2")
+def getSinks():
+    sinks=[]
+    for s in PULSE.sink_list():
+        sinks.append(s)
+    return sinks
+
+
+
+
+def rewire(mic,app,out):
+    getOrCreateNullSink(PREFIX+"_AppProxy")
+    getOrCreateNullSink(PREFIX+"_MicProxy")
+    getOrCreateNullSink(PREFIX+"_DiscordMix")
+
+    getOrCreateLoopBack(mic,PREFIX+"_MicProxy")
+    getOrCreateLoopBack(PREFIX+"_MicProxy.monitor",PREFIX+"_DiscordMix")
+    getOrCreateLoopBack(PREFIX+"_AppProxy.monitor",PREFIX+"_DiscordMix")
+    getOrCreateLoopBack(PREFIX+"_AppProxy.monitor",out)
+
+
+APP_PID=""
+MIC_ID="mic_denoised_out.monitor"
+OUT_ID="alsa_output.pci-0000_00_1b.0.analog-stereo"
+
+rewire(MIC_ID,APP_PID,OUT_ID)
