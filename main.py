@@ -1,11 +1,12 @@
 import pulsectl,re,psutil,json
-
+from xdo import Xdo
 
 PREFIX="daswr"
 PULSE=pulsectl.Pulse(PREFIX) 
 FIND_SINK_NAME_IN_ARGS_RE= re.compile('sink_name=([A-Z0-9_]+)', re.IGNORECASE)
 FIND_SRC_IN_ARGS_RE= re.compile('source=([A-Z0-1_]+)\.monitor', re.IGNORECASE)
 FIND_SINK_IN_ARGS_RE= re.compile('sink=([A-Z0-9_]+)', re.IGNORECASE)
+XDO=Xdo()
 
 # LOADED_MODULES=[]
 
@@ -130,20 +131,36 @@ def rewire(mic,app_pids,out):
     getOrCreateSource(PREFIX+"_DiscordMix.monitor","DiscordMixedDevice")
 
 
-def findPidsByName(name):
-    pids=[]
+def getProcesses():
+    processes={}
     for proc in psutil.process_iter():
+        
         pinfo = proc.as_dict(attrs=['pid', 'name'])
-        if pinfo["name"].lower()==name.lower():
-            pids.append(pinfo["pid"])
-    return pids
+        windows=XDO.search_windows(pid=pinfo["pid"])
+        if len(windows)>0:
+            for win in windows:
+                winTitle=str(XDO.get_window_name(win),'utf-8')
+                if winTitle:
+                    if not winTitle in processes:
+                        processes[winTitle]={
+                            "pids":[],
+                            "title":winTitle,
+                            "names":[]
+                        }
+                    
+                    if not pinfo["pid"] in processes[winTitle]["pids"]: processes[winTitle]["pids"].append(pinfo["pid"])
+                    if not pinfo["name"] in processes[winTitle]["names"]: processes[winTitle]["names"].append(pinfo["name"])          
+    return processes
 
-print(getSources())
-print(getSinks())
-#print(getProcesses()) #todo
 
-APP_NAME="chrome"
-APP_PIDS= findPidsByName(APP_NAME)
-MIC_ID="mic_denoised_out.monitor"
-OUT_ID="alsa_output.pci-0000_00_1b.0.analog-stereo"
-rewire(MIC_ID,APP_PIDS,OUT_ID)
+# print(getSources())
+# print(getSinks())
+# processes=getProcesses()
+# for title,p in processes.items():
+#     print(str(p["names"]),title,str(p["pids"]))
+
+# APP_NAME="chrome"
+# APP_PIDS= findPidsByName(APP_NAME)
+# MIC_ID="mic_denoised_out.monitor"
+# OUT_ID="alsa_output.pci-0000_00_1b.0.analog-stereo"
+# rewire(MIC_ID,APP_PIDS,OUT_ID)
