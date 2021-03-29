@@ -79,8 +79,7 @@
             opacity:0.5;
             hit-margin: -30000px;
         }
-        #status{
-        }
+       
     </style>
 
 </head>
@@ -110,7 +109,9 @@
 
 
 <script type="text/tiscript">
-    let LID = 0;
+        const DEFAULT_STATUS="Select the input, output and application. Then press Stream to start.";
+        let STREAMING=false;
+        let LID = 0;
         const IDmap = {};
 
         function populateOptions(gid, vals) {
@@ -139,58 +140,75 @@
             return el;
         }
 
-
-        let STREAMING=false;
+       
         function reload() {
-            // Reload sources
-            const sources = view.listSources();
-            const sourcesEl = populateOptions("sources", sources);
+            setStatus("Loading...");
+            self.timer(500,function(){
 
-            // Reload sinks
-            const sinks =  view.listSinks();
-            const sinksEl = populateOptions("sinks", sinks);
+                // Reload sources
+                const sources = view.listSources();
+                const sourcesEl = populateOptions("sources", sources);
+
+                // Reload sinks
+                const sinks =  view.listSinks();
+                const sinksEl = populateOptions("sinks", sinks);
 
 
-            // Reload processes
-            const processes =  view.listProcesses();
-            processes.unshift({
-                name:"auto",
-                description:"auto (select window)"
-            
-            });
-            const pidsEl = populateOptions("pids", processes);
+                // Reload processes
+                const processes =  view.listProcesses();
+                processes.unshift({
+                    name:"auto",
+                    description:"auto (select window)"            
+                });
 
-            const streamBtn =  self.select("#stream");
-            streamBtn.onClick= function() {
-                if(STREAMING){
-                    STREAMING=false;
-                    streamBtn.html="Start";
-                    setStatus("Stopping...")
-                    view.stopStream();
-                    setStatus("Stopped.")
-                    self.select('body').attributes["class"]="";
+                const pidsEl = populateOptions("pids", processes);
+
+                const streamBtn =  self.select("#stream");
+                streamBtn.onClick= function() {
+                    if(STREAMING){
+                        STREAMING=false;
+                        streamBtn.html="Start";
+                        setStatus("Stopping...")
+                        self.timer(500,function(){
+                            view.stopStream();
+                            setStatus(DEFAULT_STATUS);
+                            self.select('body').attributes["class"]="";
+                        });
+                    }else{
+                        STREAMING=true;
+                        streamBtn.html="Stop";
+                        setStatus("Starting...")
+                        self.select('body').attributes["class"]="streaming";
+                        self.timer(500,function(){
+                            const source = sourcesEl.select("option:current").value;
+                            const out = sinksEl.select("option:current").value;
+                            let pids = pidsEl.select("option:current").value;
                     
-                }else{
-                    STREAMING=true;
-                    streamBtn.html="Stop";
-                    const source = sourcesEl.select("option:current").value;
-                    const out = sinksEl.select("option:current").value;
-                    let pids = pidsEl.select("option:current").value;
-            
-                    if(pids=="auto"){
-                        setStatus("Select the application by clicking its window...")
-                        pids=view.clickSelect();
+                            const cnt=function(){
+                                view.println("Source: "+source+" Output: "+out+" Pids: "+ pids);
+                                setStatus("Streaming "+pids+"...")
+                                view.startStream(source,out,pids);
+                            };
+                            
+                            if(pids=="auto"){
+                                setStatus("Select the application by clicking its window...")
+                                self.timer(100,function(){
+                                    pids=view.clickSelect();
+                                    cnt();
+                                });
+                            }else{
+                                self.timer(100,function(){
+                                    cnt();
+                                });
+                            }
+                        });
                     }
-                    view.println("Source: "+source+" Output: "+out+" Pids: "+ pids);
-                    setStatus("Streaming "+pids+"...")
-                    self.select('body').attributes["class"]="streaming";
-                    view.startStream(source,out,pids);
                 }
-            }
 
-            const refreshBtn=self.select("#refresh");
-            refreshBtn.onClick= reload;
-
+                const refreshBtn=self.select("#refresh");
+                refreshBtn.onClick= reload;
+                setStatus(DEFAULT_STATUS);
+            });
         }
 
         function setStatus(s){
