@@ -1,0 +1,476 @@
+﻿<html>
+  <head>
+    <title>4.4.*.* logfile</title>
+    <meta name="generator" content="html-notepad.com"/>
+  </head>
+<body>
+  <h3>Sciter 4.4 logfile:</h3>
+  <table border="1" cellpadding="3" cellspacing="1" width="100%">
+    <tbody><tr>
+      <td width="60" nowrap valign="top" align="center">Build#</td>
+      <td width="78" nowrap valign="top" align="center">Date</td>
+      <td align="center">Updates</td></tr>
+    <tr><td valign="top" bgcolor="#fdfff6">4.4.6.3 r8571</td><td nowrap valign="top" align="center">2021-03-24</td><td>Fixes:
+					<ul><li>[reactor] fix of update() problem introduced in previous build;</li>
+						<li>[osx] touch scrolling fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.3</td><td nowrap valign="top" align="center">2021-03-23</td><td>
+					
+					<p><b>NOTE</b><b>:</b> Sciter MacOS&nbsp;library is named now <b>libsciter.dylib</b> . &nbsp;Rationale - standard name and compatibility with Sciter.JS. </p>
+					<p>So Go, Rust, Python wrappers can be used as for Sciter.TIS as for Sciter.JS.</p><p>Fixes:
+					</p><ul><li>[windows] <code>view.selectFile()</code> uses <code>OFN_NOCHANGEDIR</code> by default, see:  <a href="https://devblogs.microsoft.com/oldnewthing/20101112-00/?p=12293">https://devblogs.microsoft.com/oldnewthing/20101112-00/?p=12293</a>&nbsp;</li>
+						<li>[linux] fix of AV on msgbox close.</li>
+						<li>[Sciter][Sciter.JS] Reactor fix of <code>&lt;select|dropdown&gt;</code> reconciliation. See: <a href="https://sciter.com/forums/topic/select-behaves-erratically-in-reactor-component/">https://sciter.com/forums/topic/select-behaves-erratically-in-reactor-component/</a>&nbsp;</li>
+						<li>[frameset] fix of <a href="https://sciter.com/forums/topic/frameset-column-changes-height-when-container-is-resized/">https://sciter.com/forums/topic/frameset-column-changes-height-when-container-is-resized/</a> issue.</li>
+						<li>[sciter, reactor] fix of missed attached() call when element changes prototype.</li>
+						<li>[osx] fix of font ascent/descent calculation in Skia backend.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.2</td><td nowrap valign="top" align="center">2021-03-12</td><td>New:
+					<ul><li>MacOS - binaries are universal now - contain as x86/64 as ARM64 code.</li>
+						<li>[core] <code>behavior:virtual-list</code> - native virtual list.</li>
+						<li>[video] <code>event videocoordinate</code> - allows to coordinate output of multiple &lt;video&gt;'s. Coordinated output allows to reduce FPS rate of several videos running at the same time. See: sdk/samples/video/video-25-videos.htm</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>fix of <code>transition:backround</code> to include <code>backround-color</code> too.</li>
+						<li>[tis] <code>date.dayOfWeekName()</code>, local time fix.</li>
+						<li>[API] <code>ValueFromString(&quot; &quot;)</code> fix.</li>
+						<li>[css] fix of animation of shortcut properties.&nbsp;</li>
+						<li>[css] fix of color::morph rules.</li>
+						<li>[plaintext] fix of <a href="https://sciter.com/forums/topic/plaintext-again/">https://sciter.com/forums/topic/plaintext-again/</a>&nbsp;</li>
+						<li>[inspector] fix of style url reporting, see: <a href="https://sciter.com/forums/topic/inspector-cant-loads-css-files/">https://sciter.com/forums/topic/inspector-cant-loads-css-files/</a>&nbsp;</li>
+						<li>[css] support of <code>@keyframes</code> inside <code>@set</code>'s;</li>
+						<li>&lt;frame&gt;, fix of <code>frame.attributes[&quot;src&quot;] = ...;</code></li>
+						<li>sdk/include/sciter-x-behavior.h event codes sync with internal declarations.</li>
+						<li>[API] <code>gPushClipPath</code> fix.</li>
+						<li>[core] <code>flow:vertical-wrap;</code> fix of stack overflow when percent units used. &nbsp;</li>
+						<li>[sciter.tis] fix of <code>element.call_method(&quot;...&quot;, ...)</code> when receiver is a native behavior.</li>
+						<li><code>frame.loadFile(pathButNotUrl)</code> fix.</li>
+						<li><code>input.edit.selectRange(-1);</code> to remove selection completely.&nbsp;</li>
+						<li>[sciter.tis] attempt to fix &quot;BrokenHeart&quot; issue in <code>element.patch()</code></li>
+						<li>[behavior:edit] now drops selection on <code>FOCUS_OUT</code> as do browsers.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.11</td><td nowrap valign="top" align="center">2021-01-25</td><td>Fixes:
+					<ul><li>[windows] fix of icon generation routine (used in tray-icons);</li>
+						<li><code>element.style.variable[s]</code>, fix of updates.</li>
+						<li><code>behavior:slider</code>, <code>&lt;input|hslider /&gt;</code> and <code>&lt;input|vslider /&gt;</code> refactoring. Note you may see broken rendering if you use customization of the input. See: sdk/samples/forms/custom-hslider.htm and custom-vslider.htm for the demo.</li>
+						<li><code>appearance:none;</code> activation in Sciter. See: sdk/samples/forms/custom-input-appearance.htm</li>
+						<li>fix of mouse handling on popups over scrollbars, see: <a href="https://sciter.com/forums/topic/popup-issue/">https://sciter.com/forums/topic/popup-issue/</a> &nbsp;</li>
+						<li>[css] fix of color(name) and var(name,defcolor) handling.</li>
+						<li>[css] + <code>content-vertical-align</code> property. <code>vertical-align</code> and <code>content-vertical-align</code> can be defined independently for inline-block elements.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.10</td><td nowrap valign="top" align="center">2021-01-21</td><td>
+					
+					<p>New:</p>
+					<ul><li>[css] + support of <code>transition: ... cubic-bezier(x1,y1,x2,y2)</code>;</li>
+						<li>[css] + support of <code>appearance: auto | none;</code> property - appearance:none discards default visual styling of input elements.</li></ul><p>Fixes:
+					</p><ul><li>[css] fix of foreground-position on custom scrollbars, see: <a href="https://sciter.com/forums/topic/scrollbar-styling-broken/">https://sciter.com/forums/topic/scrollbar-styling-broken/</a>&nbsp;</li>
+						
+						<li>[css] fix of ::marker update on DPI changes. &nbsp;</li>
+						<li>[css variables] fix of <code>element.style.variables()</code> handling.</li><li>[sciter] fix of /sdk/samples/+query</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.9	</td><td nowrap valign="top" align="center">2020-12-14</td><td>Fixes:
+					<ul>
+						<li>[css] <code>morph(currentcolor, ...)</code> fix.</li><li>mouse scroll + SHIFT - scrolling in horizontal direction.</li>
+						<li>[richtext] delete-backward operation fix.</li>
+						<li>[tooltips] fix of tooltip flickering at screen border.</li>
+						<li>[tis] <code>element.send/post/fireEvent(code,reason)</code> fix.</li>
+						<li>[SDK headers] <code>BOOL</code> is replaced by <code>SBOOL</code> (alias of int) declaration. BOOL is wildly different entity on different platforms.&nbsp;</li>
+						<li>[tis] <code>element.detached()</code> lifecycle event fix in components.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.8</td><td nowrap valign="top" align="center">2020-11-26</td><td>Fixes:
+					<ul>
+						<li>[windows] one more attempt to fix ZWJ handling.</li><li>
+regression: [css] fix of box calculation in case of box-sizing:border-box / display:inline-block combination.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.7</td><td nowrap valign="top" align="center">2020-11-25</td><td>Fixes:
+					<ul>
+						
+						
+						<li>[lottie] restart animation on window show;</li><li>[svg] stroke-dasharray parsing fix;</li><li>[css] fix of box calculation in case of <code>box-sizing:border-box</code> / <code>display:inline-block</code> combination;</li><li>[css] hit test fix on inline-block/transform elements;</li>
+						<li>[win] mfc sample fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.5</td><td nowrap valign="top" align="center">2020-11-12</td><td>Fixes:
+					<ul><li>[svg] support of dominant-baseline, alignment-baseline and text-anchor attributes in &lt;text&gt;.</li>
+						<li>[script] <code>Date.toLocaleString(#time)</code> fix.</li>
+						<li>[UI] fix of cursor appearance while animating and updates.</li>
+						<li>[a11y] checkbox handling.</li>
+						<li>libuv: 2020.09.26, Version 1.40.0</li>
+						<li>[sciter] native asset handling ( to/from script ), see: <a href="https://sciter.com/forums/topic/asset-wrap-bug/">https://sciter.com/forums/topic/asset-wrap-bug/</a>&nbsp;</li>
+						<li>[css] fix of specificity handling in @media {} sections, see: https://sciter.com/forums/topic/load_html-and-load_file-has-different-css-behavior/&nbsp;</li>
+						<li>[reactor] allowing reconciliation on elements with custom behaviors.</li>
+						<li>[CSS] <code>flow:grid(...)</code> fix of layout calculation (off by one pixel).</li>
+						<li>[spellcheck] <code>&lt;richtext lang=&quot;...&quot;&gt;</code>, if <code>lang</code> is defined explicitly then it is used as a spell check language.</li>
+						<li>[layout] fix of double click handling on first word in textarea.</li>
+						<li>[richtext] better handling &lt;inline-block&gt; removals.</li>
+						<li>fix of emojii handling.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.4</td><td nowrap valign="top" align="center">2020-10-31</td><td>
+					
+					<p>New:</p>
+					<ul><li>API, explicit methods to wrap/unwrap HELEMENT and HNODE handles into VALUE<ul><li>UINT &nbsp; SciterElementUnwrap(const VALUE* pval, HELEMENT* ppElement);</li><li> UINT &nbsp; SciterElementWrap(VALUE* pval, HELEMENT pElement);</li><li> UINT &nbsp; SciterNodeUnwrap(const VALUE* pval, HNODE* ppNode);</li><li> UINT &nbsp; SciterNodeWrap(VALUE* pval, HNODE pNode);</li></ul></li>
+						</ul><p>Fixes:
+					</p><ul><li>[reactor] yet more &quot;falsy&quot; values handling fix;</li>
+						<li>[layout] <code>position:absolute</code> width calculation fix;</li>
+						<li>[richtext/plaintext] <code>advance(#first)</code> fix - caret appearance on <code>state.focus = true</code>;</li>
+						<li>[skia backend] preventing stack overflow on <code>font-family: &quot;system-ui&quot;</code>;</li>
+						<li>[events] <code>SCROLL_SLIDER_PRESSED</code> - proper scroll position in event;</li>
+						<li>[DOM] <code>POPUP_DISMISSING</code> event generation on scroll event;</li>
+						<li>[plaintext, richtext] fix of caret positioning after ENTER;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.3</td><td nowrap valign="top" align="center">2020-10-24</td><td>Fixes:
+					<ul><li>[DOM, events] event subscription/matching fix.</li>
+						<li>[reactor] expressions that produce &quot;falsy&quot; results generate no content (as if their value was []).</li>
+						<li>[css/rendering] fix of outline rendering on <code>position:relative</code> containers, see: <a href="https://sciter.com/forums/topic/widgetscrollbar-and-hover-outline/">https://sciter.com/forums/topic/widgetscrollbar-and-hover-outline/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.2</td><td nowrap valign="top" align="center">2020-10-23</td><td>New:
+					<ul><li>[Sciter, reactor] + <code>&lt;Reactor.Fragment&gt;</code>...elements...<code>&lt;/Reactor.Fragment&gt;</code> support;</li>
+						<li>[html] + DOM attribute <code>styleset</code>: defines style set of the element explicitly, <code>&lt;div styleset=&quot;styles.css#setname&quot;&gt;</code>, the url can end with '<code>!</code>' to signify <code>!important</code>'ce. This enables style sets in reactor's functional components.&nbsp;</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[css] fix of specificity calculations in derived style sets, see: <a href="https://sciter.com/forums/topic/the-stopped-working-in-version-4-4-5-1/">https://sciter.com/forums/topic/the-stopped-working-in-version-4-4-5-1/</a>&nbsp;</li>
+						<li>[sciter] <code>frame.onRequestResponse = function(rq) {...}</code> is a sync notification - script can preprocess the request (e.g. consume it to silence);</li>
+						<li>[sciter, script] <code>ppx(int)</code> function fix;</li>
+						<li>[vlist.tis and reactor/vlist.tis] <code>px() -&gt; ppx()</code> fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.1</td><td nowrap valign="top" align="center">2020-10-12</td><td>Fixes:
+					<ul><li>[reactor] rollback to 4.4.4.10 state + plus minor fixes.</li>
+						<li>[svg] fixes related to &quot;px-as-dip&quot; feature.</li>
+						<li>[rendering] fix of ellipsis rendering in presence of floats.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.5.0</td><td nowrap valign="top" align="center">2020-10-11</td><td>New:
+					<ul><li>[css] support of <code>@supports (...) {}</code> blocks;</li>
+						<li><code>px</code> length units are conditional now, see <a href="https://sciter.com/road-to-sciter-js-step-i-supports-px-ppx-dip/">this document</a>. By default <code>px</code>'es are configured as <code>dip</code>'s , use <code>SciterSetOption(NULL,SCITER_SET_PX_AS_DIP,&nbsp;FALSE)</code> to set them otherwise.
+</li>
+						<li>[api, headers] <code>sciter::event_handler_raw</code> for non reference counting cases .&nbsp;</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[assets] fix of universal prop_get_accessor handling.</li>
+						<li>[assets] fix of AV in attempts to change read-only properties.</li>
+						<li>[DOM] fix of hang in <code>event doubleclick</code> in text editors.</li>
+						<li>[reactor] <code>&lt;input :value=&quot;...&quot; /&gt;</code> is not handling <code>property value</code> defined in script, see: <a href="https://sciter.com/forums/topic/reactor-component-state-is-undefined/#post-67738">https://sciter.com/forums/topic/reactor-component-state-is-undefined/#post-67738</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.13</td><td nowrap valign="top" align="center">2020-10-05</td><td>Fixes:
+					<ul><li>[reactor] one more r13n fix.</li>
+						<li>[reactor] <code>&lt;input value=&quot;updatedval&quot; /&gt;</code> fix.</li>
+						<li>[win] <code>Date.toLocaleString()</code> fix to emit date and time.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.12</td><td nowrap valign="top" align="center">2020-10-04</td><td>New:
+					<ul><li>[CSS] <code>rem</code> units support. <code>rem</code> is like <code>em</code> but relative to font-size of the root element (<code>&lt;html&gt;</code> or <code>&lt;svg&gt;</code>).
+</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[reactor] fix of <code>element.merge(vdom)</code> &nbsp;when is a component SSX expression like <code>&lt;App/&gt;</code>.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.11</td><td nowrap valign="top" align="center">2020-10-02</td><td>
+					
+					<p>New:</p>
+					<ul><li>[column-resizer] <code>th {hit-margin: ...}</code> to define inter-header gap used for resizing.</li>
+						<li>[column-resizer]&nbsp;<code>event doubleclick-gap</code> generation, see /samples/column-resizer/ samples.</li></ul><p>Fixes:
+					</p><ul><li>[reactor] fixes and refactoring of SSN reconciliation machinery.</li>
+						</ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.10</td><td nowrap valign="top" align="center">2020-09-30</td><td>Fixes:
+					<ul><li>[reactor] fix of reconciliation of &quot;radically&quot; different trees.</li>
+						<li>[layout] horizontal scrollbar appearance fix.</li>
+						<li>[script] <code>element.move(x,y)</code> fix.</li>
+						<li>[script] <code>frame.onRequestResponse</code> callback, fix of call environment.</li>
+						<li>[API] <code>ValueInt64Data</code> fix.</li>
+						<li>[lottie] <code>lottie.play(first,last)</code> fix + new sample: samples/animations-lottie/lottie-values-play-range.htm</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.9</td><td nowrap valign="top" align="center">2020-09-21</td><td>Fixes:
+					<ul><li>[dom] VK_LEFT/VK_RIGHT navigation fixes related to emojii and ideographs.</li>
+						<li>[windows] emojii+ZWJ better handling.</li>
+						<li>[dom, events] SELECT_STATE_CHANGED event is named(aliased) as SELECT_VALUE_CHANGED now.&nbsp;</li>
+						<li>[script] preventing multiple &quot;event change&quot; calls on single event.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.8</td><td nowrap valign="top" align="center">2020-09-19</td><td>New:
+					<ul><li><code>&lt;lottie&gt;</code> element (behavior:lottie) - support of <a href="https://airbnb.io/lottie/#/">Lottie animations</a>. See <a href="https://lottiefiles.com/">Lottie animation samples</a>. The &lt;lottie&gt; uses <a href="https://github.com/Samsung/rlottie">Samsung's rlottie library</a> (MIT licensed).</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[api] fix of <code>SciterCallScriptingMethod</code> API;</li>
+						<li>[windows] emojii handling fix;</li>
+						<li>[windows] fix of issues related to multiple GUI threads;</li>
+						<li>[windows] &quot;alt ding&quot; one more attempt to fix it;</li>
+						<li>[linux] fix of popup positioning.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.7</td><td nowrap valign="top" align="center">2020-09-14</td><td>
+					
+					<p>New:</p>
+					<ul><li><code>behavior:scrollbar</code> - support of bound (a.k.a.) external scrollbars. See: sdk/samples/scrollbars-n-scrolling/scrollbar-bound.htm sample.  </li></ul><p>Fixes:
+					</p><ul>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<li>[doc] <code>behavior:scrollbar</code> documented;&nbsp;</li><li><code>sciter::dom::element::call_method(&quot;frame.load&quot;, url);</code> - support of behavior/asset methods using assetname.methodname notation.&nbsp;</li><li>[css] <code>cursor: ew-resize | ns-resize</code> cursor types;</li><li>[windows, scrolling] &quot;overscroll&quot; feature is disabled until I'll find answer on this question: <a href="https://stackoverflow.com/questions/63851594/how-to-distinguish-wm-mouse-messages-generated-by-touch-pad-from-generated-by">https://stackoverflow.com/questions/63851594/how-to-distinguish-wm-mouse-messages-generated-by-touch-pad-from-generated-by</a> and <a href="https://sciter.com/forums/topic/scrolling-issues-with-touchpad-touch-screen/#post-67304">https://sciter.com/forums/topic/scrolling-issues-with-touchpad-touch-screen/#post-67304</a>&nbsp;</li><li>[css] <code>backdrop-filter</code> rendering fix for multiple elements with the backdrop in the same container;</li><li>[windows] fix of <code>Event.keyPressed(Event.VK_CAPITAL)</code> to return toggled state too, same thing for scroll lock;</li><li>[DOM] <code>view.request { trySync:true }</code> flag, used to get resources from local files and archives. For local data view.request will call callbacks inside the function call - not asynchronously;</li><li>[notepad] &quot;Paste Text Only&quot; functionality - useful to paste only non-formatted version of clipboard content;</li><li>[macos] shortcuts: Command-Up/Down, etc. in editors;&nbsp;</li><li>[script] auto <code>gc()</code> on window close to free resources used by the window;</li><li>[html, rendering] ZWJ (zero width join) character handling;</li><li>[windows, a11y] minor fixes;</li><li>[svg] fix of gradients handling;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.6</td><td nowrap valign="top" align="center">2020-09-04</td><td>
+					
+					<p>Note: version number have not changed.</p><p>Fixes:
+					</p><ul><li>[reactor] setting <code>element.state</code> flag fix;</li>
+						<li>[effects] marquee effect fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.6</td><td nowrap valign="top" align="center">2020-09-03</td><td>
+					
+					<p>New:</p>
+					<ul>
+						<li>[script] + <code>Bytes.compress/decompress(#gz)</code> - compressing using .gz file envelope.</li></ul><p>Fixes:
+					</p><ul>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<li>fix of RightALT+char handling on e.g. Portuguese keyboard and others.</li><li>[a11y, win] fix of &lt;select|dropdown&gt; Narrator compatibility.</li><li>fix of VK_TAB handling in <code>&lt;input|date /</code>&gt; and <code>&lt;input|time /&gt;</code>.</li><li>[reactor] <code>:current</code> flag handling fix;</li><li>[css] line-height:1.3 parsing fix - spec allows unitless numbers;</li><li>[css, animation] fix of <code>border-radius</code> animations when border-radius are in %'s;</li><li>[script] fix of literal tuple parsing when it contains dashes like <code>[folder-view:42]</code>;</li><li>[css] <code>flow:grid(...)</code>, fix of <a href="https://sciter.com/forums/topic/flow-grid-is-not-used-correctly-or-is-it-bug">https://sciter.com/forums/topic/flow-grid-is-not-used-correctly-or-is-it-bug</a> </li><li>[css transition] fix of transition rollback handling;</li><li>[networking] fix of parsing IPV6 literal addresses in&nbsp;URLs;</li><li>[osx] touchpad scroll - disabling step cap;</li>
+						<li>[osx] fix of graphite color schema colors;</li><li>[css] <code>transition:blend</code> fix.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.5</td><td nowrap valign="top" align="center">2020-08-26</td><td>Fixes:
+					<ul><li>[css] old <code>transition</code> format gone completely. All /samples/* that use old transition format are converted to use standard CSS transitions.</li>
+						<li><code>&lt;select|list multiple&gt;</code> CTRL+CLICK fix.</li>
+						<li>[reactor] fix of <code>styleset</code> application, see: <a href="https://sciter.com/forums/topic/child-elements-getting-style-of-parent-element-after-this-update/">https://sciter.com/forums/topic/child-elements-getting-style-of-parent-element-after-this-update/</a>&nbsp;</li>
+						<li>[win] Fix of View.WINDOW_FULL_SCREEN / window-frame=&quot;transparent&quot; handling.</li>
+						<li>[css] <code>::marker</code> pseudo element rendering optimization.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.4</td><td nowrap valign="top" align="center">2020-08-21</td><td>Fixes:
+					<ul>
+						
+						
+						
+						
+						
+						
+						<li>[css] <code>flow:stack;</code> mouse hit test fix;</li><li>[css] <code>background-position: left 0 bottom 0;</code> fix;</li><li>[reactor] fix of <code>styleset</code> handling in classes-wrappers;</li><li>[win] various a11y fixes;</li><li>[svg] fix of <code>transform=&quot;rotate(a x y)&quot;</code> attribute handling;</li><li>[css] <code>animation-delay</code> granularity fix;</li><li>[css] <code>%</code> computation fixes;</li><li><code>behavior:select</code>, change <code>&lt;option&gt;</code> state fix;</li>
+						<li><code>&lt;img&gt;</code>, fix of <code>img.attributes[&quot;src&quot;] = &quot;new value&quot;;</code>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.3</td><td nowrap valign="top" align="center">2020-08-15</td><td>Fixes:
+					<ul><li>[css] layout optimization on runtime state and attribute changes;</li>
+						<li>[a11y] various fixes;</li>
+						<li><code>&lt;select multiple&gt;</code>, CTRL+CLICK fix.</li>
+						<li>[layout] <code>white-space: pre-wrap;</code> + <code>TAB</code>s fix.</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.2</td><td nowrap valign="top" align="center">2020-08-12</td><td>
+					
+					<p>New:</p>
+					<ul><li>[css, reactor] <code>const styleset = [name: url, <b>#important</b>];</code> - support of #important flag - when used styles are applied on top of document styles.</li></ul><p>Fixes:
+					</p><ul>
+						
+						
+						
+						<li>[a11y, windows] UIAutomation implementation is disabled for a while, IAccessible is used instead. [a11y] <code>NotifyWinEvent(EVENT_OBJECT_VALUECHANGE)</code> generation on <code>event change</code>;</li><li>[layout] performance tweaks;</li><li>[windows, d2d] better gfx primitives caching;</li><li>[css] :state switch update optimization;</li><li>[css] border corners drawing fix;</li>
+						<li>&lt;select multiple&gt; - keyboard handling fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.1</td><td nowrap valign="top" align="center">2020-08-09</td><td>Fixes:
+					<ul><li>[css] transition fixes;</li>
+						<li>[css] <code>margin:-1dip;</code> - fix of negative margins handling;</li>
+						<li><code>&lt;select|list&gt;</code> fix of context menu handling;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdf6ff">4.4.4.0</td><td nowrap valign="top" align="center">2020-08-08</td><td>New:
+					<ul>
+						<li>[css] support of <code>box-sizing:&nbsp;content-box | padding-box | border-box;</code> as per CSS spec.</li><li>[css] new property: <code>clip-box: default | content-box | padding-box | border-box | margin-box | hit-margin-box;</code> &nbsp;- defines clip box for scrolling. See: sdk/samples/scrollbars-n-scrolling/clip-box.htm sample.</li>
+						<li>[script] <code>bytes.compress(#gzip).decompress(#gzip) == bytes</code>. Compressing buffers using GZIP.</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul>
+						
+						
+						<li>[audio] Audio.play()/Audio.pause() fix + sample update.</li><li>[scapp] main.html as entry point fix.</li><li>[reactor] fix of recordset changes in sdk/samples/+reactor/components/vlist/vlist.tis</li><li>sample fixes and refactoring:<ul><li>sdk/samples/acrylic-window/flat-theme;</li>
+								<li>sdk/samples/css++inline-vector-images/path-images.htm;</li>
+								<li>sdk/samples/plaintext-editor/basic.htm;</li>
+								<li>sdk/samples/scrollbars-n-scrolling/scroll-indicator-no-overscroll.htm;</li>
+								</ul></li>
+						<li>[css, selectors] fix of <code>*</code>&nbsp;matching pseudo elements.</li>
+						<li>[css animation] start animations that are defined by default.</li>
+						</ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.30</td><td nowrap valign="top" align="center">2020-07-28</td><td>Fixes:
+					<ul>
+						
+						<li>[css] <code>box-sizing: content-box;</code> handling in conjunction with <code>overflow: hidden | hidden-scroll | scroll | auto;</code> see: /sdk/samples/css++inline-vector-images/path-images.htm</li><li>[css] regression fix of <code>background</code>/<code>foreground</code> shortcut parsing;</li><li>[DOM] <code>behavior:slider;</code> regression  fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.29</td><td nowrap valign="top" align="center">2020-07-27</td><td>New:
+					<ul><li>[html5] support of <code>&lt;media charset=&quot;...&quot;&gt;</code> definition;&nbsp;</li>
+						<li>[css3] + backdrop-filter property support, see: /sdk/samples/css3-filter/backdrop-filter.htm</li>
+						<li>[css3] + <code>font-variant-ligatures</code> and <code>font-variant-caps</code> support on Windows.</li>
+						<li>[css3] + support of <code>background-position: bottom 14dip right 14dip;</code> format (allows to define offsets from right/bottom).</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[osx] workaround fix of <code>view.dialog()</code> when <code>view.state == View.WINDOW.MINIMIZED</code>;</li><li>[System.Process] <code>System.Process.terminate()</code> fix.</li><li>[reactor] @observable feature fixes;</li><li>[css] better <code>style-set: name;</code> handling.</li><li>[css] fix of transition of <code>background-position</code> and <code>background-size</code></li><li><code>Element.request</code> -&gt; promise fix for statuses 201..300.</li><li>[CSS] sdk/samples/material/material.css refactoring.</li><li>[Windows 10] <code>window-frame=&quot;extended&quot;</code>, correct <code>window-button-width</code> computation.</li><li>[CSS] transition: back/foreground-image linear 200ms; - image transitions;</li><li>[+plus] fix of needless exception generation.</li><li>[CSS] overflow-x:hidden-scroll fix, see: <a href="https://sciter.com/forums/topic/input-with-behaviors-doesnt-layout-properly/">https://sciter.com/forums/topic/input-with-behaviors-doesnt-layout-properly/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.28</td><td nowrap valign="top" align="center">2020-07-16</td><td>Fixes:
+					<ul>
+						
+						
+						<li>[Windows] use of DirectComposition is off by default as does not solve any major problems really;</li>
+						<li><code>&lt;select|tree&gt;</code> VK_LEFT|RIGHT handling fix;</li>
+						<li>[DOM] <code>Element.remove()</code>, fix of resource cleanup;&nbsp;</li>
+						<li>[Windows] a11y fixes;</li>
+						<li>[Windows, Sciter.Lite, DirectX] fix of surface cleanup;</li>
+						<li>[Windows] <code>window-frame=&quot;extended&quot;</code> window positioning fixes;</li>
+						<li>[+plus] sdk/samples/+plus/demos/M-repeatble-in-repeatable.htm sample update to use @repeatable;</li><li>Fix of padding handling in <code>overflow:hidden-scroll</code>, see: <a href="https://sciter.com/forums/topic/text-indent-with-input-bug/">https://sciter.com/forums/topic/text-indent-with-input-bug/</a>&nbsp;</li><li>[API] <code>sciter::dom::element::fire_event</code> / <code>SciterFireEvent</code>, fix of CUSTOM/&quot;name&quot; send/post:<pre>     sciter::dom::element el = self-&gt;get_root();
+     BEHAVIOR_EVENT_PARAMS evt;
+     evt.cmd = CUSTOM;
+     evt.he = evt.heTarget = el;
+     evt.name = WSTR(&quot;hello&quot;);
+     evt.data = sciter::string(WSTR(&quot;world&quot;));
+     assert(el.fire_event(evt,false));</pre>and in script:<pre>event hello(evt) {
+ assert evt.data == &quot;world&quot;;
+}</pre></li><li>[Element.request] fix of handling status codes &gt; 200 and &lt; 300;</li>
+						<li>[Sciter.Lite/d2d] fix of handling SCITER_X_MSG_PAINT of root element;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.27</td><td nowrap valign="top" align="center">2020-07-10</td><td>New:
+					<ul><li>[Sciter.Lite] DirectX (IDXGISurface) rendering target (additionally to OpenGL).<ul><li>+ sdk/demos.lite/sciter-directx demo.</li></ul></li>
+						
+						</ul>
+					<p>Fixes:</p>
+					<ul><li><code>html { size:50% }</code> (on root document) is back - sets initial size of window's client area to be of 50% of workspace of current monitor.&nbsp;</li>
+						<li>[css] mem leak in <code>linear-gradient/radial-gradient</code> handling;</li>
+						<li>[api] <code>SciterCreateWindow(...SW_TOOL...)</code> will not show window on taskbar.</li>
+						<li>[css] <code>back/foreground-image: url(path:...)</code> fixes;</li>
+						<li>[css] <code>transition: blend ease duration;</code> format support, sdk/samples/effects.css++/*.* updated accordingly.</li>
+						<li>[win] suppressing &quot;ding&quot; sound on handled alt+something;</li>
+						<li>[+plus] model inside frames fix;</li>
+						<li>[richtext] fix of AV on un-<code>&lt;pre&gt;</code> operation.</li>
+						<li>[gtk,reactor] <code>&lt;select&gt;</code> AV fix;</li>
+						<li>[reactor] fix of <code>:hover</code>, <code>:checked</code>, etc. handling in reactor component style sets. See: <a href="https://sciter.com/forums/topic/vtable-hover-works-only-when-scrolling/">https://sciter.com/forums/topic/vtable-hover-works-only-when-scrolling/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.26</td><td nowrap valign="top" align="center">2020-07-01</td><td>Fixes:
+					<ul>
+						
+						
+						
+						
+						<li>[css] mem leak in box-shadow and text-shadow.</li><li>sciter::dom::element::get_expando() fix.</li><li>[css] foreground-position-right fix.</li><li>[svg] transition/animation fix.&nbsp;</li><li>[DOM] style cleanup fixes.</li><li>[win, a11y] focus change handling fix.&nbsp;</li>
+						<li>[win, a11y] fixes of issues with &lt;select|dropdown&gt;.</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.25</td><td nowrap valign="top" align="center">2020-06-25</td><td>Fixes:
+					<ul><li>[animation] fix of stack overflow on multiple animations on the same element.</li>
+						<li>[reactor] <code>@{...,...}</code> support of multiple expressions.</li>
+						<li>[Windows, System.Process] OEM encoding.</li>
+						<li>[osx] event doubleclick fix.</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.24</td><td nowrap valign="top" align="center">2020-06-22</td><td>
+					
+					<p>New:</p>
+					<ul><li>support of window-frame=&quot;extended&quot; on Linux. usciter on Linux uses extended frame too now.&nbsp;</li>
+						<li>[sciter and quark] <code>include library &quot;name&quot;;</code> and <code>SciterLibraryInit()</code> in dll support. sdk/sqlite updated to build sciter-sqlite.dll/so. Can be used as demo of native Quark extensions.</li>
+						<li>[linux/raspberry] libsciter-gtk.so ARM32 build.</li></ul><p>Fixes:
+					</p><ul>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						<li>[osx] fix of https://sciter.com/forums/topic/sw_resizeable-is-always-enabled-on-osx/&nbsp;</li>
+						<li>[osx] graphics artefacts fixes.</li><li>[osx] <code>event tripleclick</code> fix.</li><li>[API] sdk/include/tiscript.h and the whole tiscript API - gone, removed from SDK.</li><li>fix of <a href="https://sciter.com/forums/topic/window-frameextended-maximize-button-bug-on-ubuntu-20/">https://sciter.com/forums/topic/window-frameextended-maximize-button-bug-on-ubuntu-20/</a>&nbsp;</li><li>fix of <a href="https://sciter.com/forums/topic/sciter-library-tries-to-load-itself/">https://sciter.com/forums/topic/sciter-library-tries-to-load-itself/</a>&nbsp;</li><li>[css] <code>font-size: var(name);</code> fix.</li><li>[gtk] <code>syle.cursor(image)</code> fix.</li><li>[css] <code>%</code> calculation fixes in <code>calc()</code>'s&nbsp;</li><li>[css] fix of animation restart issue. See: <a href="https://sciter.com/forums/topic/removeclass/">https://sciter.com/forums/topic/removeclass/</a>&nbsp;</li><li>fix of AV on popup click, see: <a href="https://sciter.com/forums/topic/sciter-crash-while-popup-processing/">https://sciter.com/forums/topic/sciter-crash-while-popup-processing/</a>&nbsp;</li>
+						<li>samples cleanup from old CSSS! stuff.</li><li><code>element.onSize = fcn</code>; preventing &quot;event loop&quot; condition.</li><li>[css] <code>flow:stack</code>, hit-test and mouse event handling fixes.</li>
+						<li>[xdom] <code>element.style[&quot;prop&quot;]</code> fixes when the value resolves to CSS variable, see: <a href="https://sciter.com/forums/topic/material-bug/">https://sciter.com/forums/topic/material-bug/</a>&nbsp;</li>
+						<li>[xdom] <code>element.animate {...}</code> variant - supports &quot;call by object&quot; notation.</li>
+						<li>[css] fix <code>calc()</code> handling in fore/background-position;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.23</td><td nowrap valign="top" align="center">2020-06-12</td><td>New:
+					<ul><li>linux/arm32 (Raspberry Pi) binary for Quark.</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[css] fix of <code>calc(...)</code> computations;</li>
+						<li>[css] fix of <code>transition: {shortcut-property}</code> handling;</li>
+						<li>[script] fix of AV in async function handling;</li>
+						<li><code>event tripleclick</code> generation tuning;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.22</td><td nowrap valign="top" align="center">2020-06-09</td><td>New:
+					<ul><li>+ <code>event tripleclick {}</code></li>
+						<li>+ <code>Request.requestHeaders</code>, <code>Request.responseHeaders</code> + sample /sdk/samples/communication/request-response.htm
+&nbsp;&nbsp;</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[script] <code>new RegExp(re)</code> is prohibited now, constructor accepts only string.</li>
+						<li>[script] <code>String.urlUnescape()</code> fix.</li>
+						<li>[windows] fix of Skia backend &quot;wide&quot; font rendering on some fonts (e.g. Chinese). &nbsp;</li>
+						<li><code>sciter::value::from_string()</code>, memory leak fix.</li>
+						<li><code>Element.request()</code>, GC issue fix.</li>
+						<li>[script] <code>new Path()</code> fix.</li>
+						<li>TAB-to-set-focus handling fix.</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.21</td><td nowrap valign="top" align="center">2020-06-04</td><td>Fixes:
+					<ul><li>[svg] use color CSS values, regression fix.</li>
+						<li>[windows/skia backend] minimal CPU vector extensions level is relaxed to SSX2;</li>
+						<li>[Linux] Window transparency and window-frame=&quot;transparent&quot; handling.</li>
+						<li>[Quark] ImageMagick issue. Quark is using &nbsp;&quot;magick&quot; command rather than old &quot;convert&quot;. Folder existence validations added.</li>
+						<li>[reactor] one more fix in reconciliation engine.</li>
+						<li>[windows] Image copy/paste, clipboard CF_DIB format support to transfer images with alpha.</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.20</td><td nowrap valign="top" align="center">2020-05-31</td><td>New:
+					<ul><li><a href="https://quark.sciter.com/">Sciter Quark</a> - Sciter Application Packager - takes scapp.exe and custom HTML/CSS/script resources and produces monolithic executables from them. See: sdk/quark (sources) and sdk/bin.quark - bootstrap starters;</li>
+						<li>[Skia/OpenGL] demo of native OpenGL drawing sdk/include/behaviors/behavior_drawing-opengl.cpp and sdk/samples/behaviors/opengl-drawing.htm - works on Sciter versions with Skia backend;&nbsp;</li>
+						<li>[Graphic API] + <code>GRAPHIN_RESULT SCFN(gFlush) (HGFX hgfx);</code> -&gt; <code>sciter::graphics::flush()</code> - commit batches to GPU;</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>[Reactor] various regression fixes;</li>
+						<li>[JPEG/Exif] rotated jpeg images handling;</li>
+						<li>[windows] fix of <code>view.clipboard(#put|#get, image)</code> ;</li>
+						<li>[&lt;plaintext&gt;] fix of drag-n-drop non-text handling from external sources;</li>
+						<li>[windows] Skia backend, CPU requirement is relaxed to SSE2;</li>
+						<li>[SOM] Fix of <a href="https://sciter.com/forums/topic/wsciter-4-4-3-19-crash-in-behavior_tabs-cpp/">https://sciter.com/forums/topic/wsciter-4-4-3-19-crash-in-behavior_tabs-cpp/</a></li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.19</td><td nowrap valign="top" align="center">2020-05-22</td><td>Fixes:
+					<ul>
+						
+						
+						
+						
+						<li>[plaintext] default style change. <code>&lt;plaintext linenumbers&gt;</code> shows plaintext with numbers.</li>
+						<li>[asset] propagating thrown error, see:&nbsp;<a href="https://sciter.com/forums/topic/cant-catch-exception/">https://sciter.com/forums/topic/cant-catch-exception/ </a></li><li>[doc] typos and fixes;</li>
+						<li>[CSS] z-index fix;</li>
+						<li>[win,lite] dll/pdb generation.&nbsp;</li>
+						<li>[Skia/Windows] fix of AV in font mapper.</li>
+						<li><code>&lt;select&gt;</code>, fix of <code>&lt;option disabled&gt;</code> handling.</li><li>[reactor] <code>@{ @.data = data };</code></li>
+						<li>[reactor] fix of <code>Element.merge()</code> method on &quot;radical&quot; updates. </li>
+						<li>[SOM, behavior:richtext] passport implemented, <code>element.richtext.load()</code>, etc.</li>
+						<li>ARM64 compiled with static runtime linkage - Win/ARM does not have needed VC runtime by default.</li><li>[html,parser] better handling of &quot;dangling &lt;&quot; &nbsp;- erroneous HTML, but still.</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.18</td><td nowrap valign="top" align="center">2020-05-14</td><td>
+					
+					<p>New:</p>
+					<ul><li>+ <code>view.activate([#toFront]);</code> - activates (set focus) the window and moves it to front of z-order. &nbsp;</li></ul><p>Fixes:
+					</p><ul><li>[script] <code>@decorator</code> parser fix;</li>
+						<li>tray-notifications/notification.tis demo fix.</li>
+						<li>[reactor] vtape demo fix.</li>
+						<li>[script] fix of multivalues treatment, see: <a href="https://sciter.com/forums/topic/directly-use-array-find-return-value/">https://sciter.com/forums/topic/directly-use-array-find-return-value/</a>&nbsp;</li>
+						<li>[dom API] fix of <code>element::set_style_attribute</code>/<code>element::get_style_attribute()</code>;&nbsp;</li>
+						<li>[reactor] fix of UI update on new elements addition;</li>
+						<li>[doc] <code>View.all</code> property documented;</li>
+						<li>[dom] fix of <code>element.box()</code> calculation for the case when element has pending changes;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.17</td><td nowrap valign="top" align="center">2020-05-10</td><td>New:
+					<ul><li>win.bin/arm64 - Windows/ARM64 builds and binaries;<ul><li>Build is using VS2017 build tools as only this version supports ARM64 code generation;</li></ul></li>
+						
+						<li>[SOM] + SOM_PROP_GET/SET - property &quot;interceptors&quot; in V8 terms, SQLite demo in uSciter.exe updated correspondingly.</li>
+						<li>[drag-n-drop] <code>elem:drag-source</code> flag to render drag icon, see: sdk/samples/drag-n-drop/drag-text-element.htm&nbsp;</li>
+						
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>Fix of <code>VK_LEFT</code>/<code>VK_RIGHT</code> handling in <code>&lt;button&gt;</code>s;</li>
+						<li>[css] <code>clear: before | after;</code> fix;</li>
+						<li>[sdk-headers] <code>#define CPP11</code> in headers to support VS2005;&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.16</td><td nowrap valign="top" align="center">2020-05-05</td><td>
+					
+					<p>New:</p>
+					<ul><li>[API] + <code>SciterSetGlobalAsset(asset)</code>, see: <a href="https://sciter.com/forums/topic/is-the-tiscript-apis-completely-obsolete/">https://sciter.com/forums/topic/is-the-tiscript-apis-completely-obsolete/</a>&nbsp;</li></ul><p>Fixes:
+					</p><ul><li>[reactor] fix of <code>&lt;Wrapper&gt;&lt;Tape/&gt;&lt;/Wrapper&gt;</code> case initialization;</li>
+						<li>[gtk] spell check, proper handling of <code>&amp;nbsp;</code> and other non-alpha characters;</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.15</td><td nowrap valign="top" align="center">2020-05-02</td><td>Fixes:
+					<ul><li>[css] fix of <code>@set</code> handling;</li>
+						<li>[reactor] Tape, fix of cases when list contains just few items;</li>
+						<li>[sqlite] fix of /samples/sqlite/rs-record-to-object.htm</li></ul></td></tr><tr><td valign="top" bgcolor="#fff7e6">4.4.3.14</td><td nowrap valign="top" align="center">2020-05-01</td><td>New:
+					<ul><li>SOM ( Sciter Object Model ) feature - modern way to expose native code (native assets) to script in OOP way. See <a href="https://sciter.com/native-code-exposure-to-script/">this blog post</a>.&nbsp;<ul><li>[script runtime] <code>Asset</code> namespace to deal with native assets;</li>
+								<li>started migration of built-in behaviors to this new mechanism: plaintext, masked, edit, textarea for now;</li>
+								<li><code>behavior:tabs</code> native behavior demo has been migrated to SOM;</li>
+								<li>SQLite wrapper is refactored to use SOM and SQLite is now linked statically to usciter[.app,.exe];</li>
+								<li>SOM makes tiscript API obsolete. If you use it, consider porting to SOM as tiscript API will be removed in future.</li>
+								</ul></li>
+						
+						</ul><p>Fixes:</p>
+					<ul><li>[behavior:masked] fixes;</li>
+						<li>[richtext] spellchecker highlighting fixes;&nbsp;</li>
+						<li>[css] internal ensureVisible functionality uses CSS (scroll-manner) to determine need of scroll animation.</li>
+						<li>[script] fix of <code>graphics.fillColor(clr) </code> when <i>clr</i> is a named CSS variable.</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.13</td><td nowrap valign="top" align="center">2020-04-29</td><td>
+					
+					<p>New:</p>
+					<ul><li><code>view.windowFrame = #standard | #extended | #solid | #solid-with-shadow | #transparent;</code> property to set window frame at runtime;</li>
+						<li>[linux] spell checker support using Hunspell library. Sciter expects dictionaries to be found at /usr/share/hunspell/ ;</li>
+						<li>[usciter] + <a href="https://github.com/c-smile/sciter-sdk/pull/164">live reload feature by Mr. Pravic</a> - monitors content of project folder and reloads it when changes detected.&nbsp;</li></ul><p>Fixes:
+					</p><ul><li>[reactor/vlist] fix of <code>vlist.navigateTo(record)</code>;</li>
+						<li>[reactor] fix of <code>:value={}</code> handling;</li>
+						<li><code>URL.parse()</code>, fix of <a href="https://sciter.com/forums/topic/inconsistency-in-url-parse/">https://sciter.com/forums/topic/inconsistency-in-url-parse/</a>&nbsp;</li>
+						<li>[Windows] child windows positioning update artifacts fixes;</li>
+						<li>[Windows] fix of artifacts while window sizing; </li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.12</td><td nowrap valign="top" align="center">2020-04-25</td><td>Fixes:
+					<ul>
+						
+						
+						
+						
+						
+						<li>[api] <code>SciterDataReadyAsync()</code> fix to be compatible with <code>view.request()</code>;</li>
+						<li>Element.owner fix for popup elements;</li>
+						<li>[Windows] fix of &quot;jump&quot; at popup rendering;</li>
+						<li>[script,SSX] fix of <code>Reactor.Component</code> that has @type attribute (like &lt;input|text&gt;, &lt;select|tree&gt;, etc.)</li><li>wrong cursor appearance in mousewheel events;</li><li>[windows, css] cursor: url(...) fixes;</li><li><code>&lt;input|edit&gt;</code>, <code>&lt;input|password&gt;</code> fix of initial setup;</li><li>[css] <code>!important</code> flag parsing fix;</li><li>[script] AV on &quot;naked&quot; event declaration, see: <a href="https://github.com/c-smile/sciter-sdk/issues/163">https://github.com/c-smile/sciter-sdk/issues/163</a>&nbsp;</li><li>fix of home:// url schema handling;</li>
+						<li>[wsciter.exe] demo of sciter::request - custom asynchronous resource loading.</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.11</td><td nowrap valign="top" align="center">2020-04-22</td><td>Fixes:
+					<ul>
+						
+						<li>[Windows] binaries are signed with sha256 stamp now (used to be sha1);</li><li>[linux] <code>&lt;output|date&gt;</code> and <code>&lt;output|time&gt;</code> rendering fix;</li><li>[windows] fix of &quot;hole&quot; rendering of child windows;</li>
+						<li><code>&lt;input|text&gt;</code> initialization fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.10</td><td nowrap valign="top" align="center">2020-04-20</td><td>
+					
+					<p>New:</p>
+					<ul><li>[html/css] <code>home://</code> url schema - home:// root gets resolved to folder of sciter.dll.</li></ul><p>Fixes:
+					</p><ul><li>[css] fix of intrinsic style of <code>&lt;i&gt;</code>,<code>&lt;u&gt;</code>, etc.</li>
+						<li>[css] border-radius: <code>var(foo,10px)</code> - fix of variable use in border radius;</li>
+						<li>[win] fix of child windows on <code>window-frame=&quot;extended&quot;</code>;</li>
+						<li>[css, high-dpi] on_dpi_changed, fix of fonts recalculation when moving window between screens with different DPI;</li>
+						<li>[css] <code>position:absolute</code> / <code>display:inline-block</code> fix of auto width calculation;</li>
+						<li>[css] <code>list-marker-color</code> handling fix;</li>
+						<li>[windows] <code>view.state = View.WINDOW_FULL_SCREEN;</code> in usciter.exe fix.</li>
+						<li><code>&lt;input|text value=&quot;something&quot;&gt;</code> initialization fix.</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.9</td><td nowrap valign="top" align="center">2020-04-18</td><td>Fixes:
+					<ul><li>speed up of document parsing/loading;</li>
+						<li>[css] line-height: height(100%); handling fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.8</td><td nowrap valign="top" align="center">2020-04-16</td><td>Fixes:
+					<ul><li>[css] fix, visibility switch handling: <a href="https://sciter.com/forums/topic/inconsistent-behavior-of-element-visibility-that-is-based-on-attribute-value/">https://sciter.com/forums/topic/inconsistent-behavior-of-element-visibility-that-is-based-on-attribute-value/</a>&nbsp;</li>
+						<li>SciterHttpRequest fix: <a href="https://sciter.com/forums/topic/sciterhttprequest-doesnt-use-request-params/">https://sciter.com/forums/topic/sciterhttprequest-doesnt-use-request-params/</a>&nbsp;</li>
+						<li>[Windows] fix of 64-bit version related to Style 2.0 implementation.</li>
+						<li>[css] fix of <code>background-repeat: expand stretch-center;</code> handling.</li>
+						</ul>
+					<p>Removals:</p>
+					<ul><li>CSSS! script is gone. Remnants of HTMLayout era when the engine had no script at all.</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.7</td><td nowrap valign="top" align="center">2020-04-13</td><td>Transition to &quot;Style 2.0&quot; architecture is complete. My pardon for inconveniences caused by the transition.
+					<ul><li>[win/d2d] fix of emoji rendering, regression fix;</li>
+						<li>[osx] fix of default debug settings, see:&nbsp;<a href="https://sciter.com/forums/topic/global-sciter_set_debug_mode-does-not-work-in-osx/">https://sciter.com/forums/topic/global-sciter_set_debug_mode-does-not-work-in-osx/</a></li>
+						<li>[reactor,ssx] fix of AV in forced style-set handling, see:  <a href="https://sciter.com/forums/topic/crash-if-set-not-found-in-css/">https://sciter.com/forums/topic/crash-if-set-not-found-in-css/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.6</td><td nowrap valign="top" align="center">2020-04-12</td><td>
+					
+					<p>New:</p>
+					<ul><li>[reactor/vtape] implementation of &quot;virtual&quot; scrollbar. &nbsp;To recap: <code>vtape</code> is a virtual list where items have variable heights.</li></ul><p>Fixes:
+					</p><ul><li>[style 2.0] regression fixes.</li>
+						<li>[script] fix of negative numeric keys parsing in object literals like  <code>{-1:&quot;nothing&quot;}</code></li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.5</td><td nowrap valign="top" align="center">2020-04-09</td><td>Fixes:
+					<ul><li>[style 2.0] regression fix: style inheritance under animations, see: <a href="https://sciter.com/forums/topic/call-for-testing-beta-3/#post-64684">https://sciter.com/forums/topic/call-for-testing-beta-3/#post-64684</a></li>
+						<li>[osx] better handling of &quot;overscroll&quot;;</li>
+						<li>[gtk] text-to-clipboard fix, see: <a href="https://sciter.com/forums/topic/copy-from-htmlarea/#post-64692">https://sciter.com/forums/topic/copy-from-htmlarea/#post-64692</a>&nbsp;</li>
+						<li>[css] fix of <code>margin-left/right:auto</code>; handling;</li>
+						<li>[dom] MOUSE_TICK handling fix, see: <a href="https://sciter.com/forums/topic/call-for-testing-beta-3/#post-64685">https://sciter.com/forums/topic/call-for-testing-beta-3/#post-64685</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#FAFFFC">4.4.2.4</td><td nowrap valign="top" align="center">2020-04-06</td><td>New:
+					<ul><li>&quot;Styles 2.0&quot; - deep refactoring of CSS handling inside the engine. For the motivation please read the article:&nbsp;<a href="https://terrainformatica.com/2020/04/05/styles-2-0-in-sciter-and-beyond/">https://terrainformatica.com/2020/04/05/styles-2-0-in-sciter-and-beyond/</a></li>
+						<li>[script] <code>gc(factor);</code> - allows to reclaim/free not used heap space.</li>
+						</ul>
+					<p>Fixes:</p>
+					<ul><li>Fix of problem with synthetic <code>&lt;tbody&gt;</code> handling. While <code>&lt;tbody&gt;</code> can be ommited in markup of simple tables it is desired to put it there explicitly.</li>
+						<li>[behavior:column-resizer] generates <code>event statechange</code> when user will resize columns.</li></ul></td></tr>
+    </tbody>
+  </table>
+	<p>Previous log items: <a href="logfile-2.htm">logfile-2.htm</a>.</p>
+</body>
+</html>
