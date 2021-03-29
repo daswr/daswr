@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+
+        * {
+            appearance: none;
+        }
+        html,body{
+            margin:0;
+            padding:0;
+            border:none;
+            background-color: rgb(27, 27, 27);
+            color: rgb(173, 173, 173);
+            overflow: hidden;
+            font-family: monospace;
+        }
+        body{
+            font-size:16px;
+            
+        }
+        *{
+            padding:5px;
+        }
+        select,select *{
+            background-color: rgb(27, 27, 27);
+            color: rgb(173, 173, 173);
+         
+
+        }
+        select,select > popup{
+            border:0.2vmin solid rgb(126, 126, 126);
+            border-radius: 6px;
+        }
+
+        button:hover{
+            background-color: rgb(59, 59, 59);
+
+        }
+
+        button{
+            background-color: rgb(37, 37, 37);
+            color: rgb(182, 182, 182);
+            font-weight: bold;
+            border-radius: 6px;
+                        border:2px solid rgb(126, 126, 126);
+            padding:1px;
+            padding-left:3px;
+            padding-right:3px;
+            cursor: pointer;
+        }
+        body > div{
+            display:block;
+            text-align: left;
+        }
+
+        select{
+            width:45%;
+
+        }
+        label{
+            display: inline-block;
+            width:45%;
+        }
+     
+        #controls{
+            text-align: center;
+        }
+        #controls  button {
+            width:20%;
+        }
+        #controls  button:first-child {
+            width:70%;
+        }
+
+        body.streaming select,     body.streaming  #controls  button:nth-child(2){
+            pointer-events: none;
+            opacity:0.5;
+            hit-margin: -30000px;
+        }
+        #status{
+        }
+    </style>
+
+</head>
+
+<body>
+        <div>
+            <i class="fas fa-microphone"></i> <label>Microphone In</label>
+            <select id="sources">
+            </select>
+        </div>
+        <div>
+            <label>Audio out</label>
+            <select id="sinks">
+            </select> 
+        </div>
+        <div>
+        <label>Application to stream</label>
+        <select id="pids">
+        </select> 
+
+    </div>
+    <div id="controls">
+        <button id="stream">Stream</button> 
+        <button id="refresh">Refresh</button> 
+        <div id="status">Select the input, output and application. Then press Stream to start.</div>
+    </div>
+
+
+<script type="text/tiscript">
+    let LID = 0;
+        const IDmap = {};
+
+        function populateOptions(gid, vals) {
+            const el =  self.select("#" + gid);
+            
+            for(let i=0;i<vals.length;i++) {
+                const v=vals[i];
+                let idd = IDmap[gid + "_" + v.name];
+                if (!idd) {
+                    idd = gid + "_" + LID++;
+                    IDmap[gid + "_" + v.name] = idd;
+                }
+                let vel = el.select("#" + idd);
+                if (!vel) {
+                    vel = new Element("option");
+                    vel.attributes["id"]= idd;
+                    el.select("popup").append(vel);
+                    
+                }
+                vel.value = v.name;
+                
+                vel.html = v.description.toHtmlString();
+            }
+            el.value="";
+
+            return el;
+        }
+
+
+        let STREAMING=false;
+        function reload() {
+            // Reload sources
+            const sources = view.listSources();
+            const sourcesEl = populateOptions("sources", sources);
+
+            // Reload sinks
+            const sinks =  view.listSinks();
+            const sinksEl = populateOptions("sinks", sinks);
+
+
+            // Reload processes
+            const processes =  view.listProcesses();
+            processes.unshift({
+                name:"auto",
+                description:"auto (select window)"
+            
+            });
+            const pidsEl = populateOptions("pids", processes);
+
+            const streamBtn =  self.select("#stream");
+            streamBtn.onClick= function() {
+                if(STREAMING){
+                    STREAMING=false;
+                    streamBtn.html="Start";
+                    setStatus("Stopping...")
+                    view.stopStream();
+                    setStatus("Stopped.")
+                    self.select('body').attributes["class"]="";
+                    
+                }else{
+                    STREAMING=true;
+                    streamBtn.html="Stop";
+                    const source = sourcesEl.select("option:current").value;
+                    const out = sinksEl.select("option:current").value;
+                    let pids = pidsEl.select("option:current").value;
+            
+                    if(pids=="auto"){
+                        setStatus("Select the application by clicking its window...")
+                        pids=view.clickSelect();
+                    }
+                    view.println("Source: "+source+" Output: "+out+" Pids: "+ pids);
+                    setStatus("Streaming "+pids+"...")
+                    self.select('body').attributes["class"]="streaming";
+                    view.startStream(source,out,pids);
+                }
+            }
+
+            const refreshBtn=self.select("#refresh");
+            refreshBtn.onClick= reload;
+
+        }
+
+        function setStatus(s){
+            self.select("#status").html=s;
+        }
+
+        reload();
+        
+    </script>
+</body>
+
+</html>
