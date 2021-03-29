@@ -7,6 +7,7 @@ import threading,time
 class Gui(sciter.Window):
     def __init__(self):
         super().__init__(ismain=True, uni_theme=False,debug=True,resizeable=False,size=[800,260])
+        self.set_title("Discord Audio Streaming WorkaRound")
         self.WIRING_THREAD=None
 
     def on_subscription(self, groups):
