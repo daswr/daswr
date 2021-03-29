@@ -1,3 +1,9 @@
+# Discord Audio Streaming WorkaRound
+
+![Screenshot](media/preview.png)
+
+
+
 ## Dependencies
 `python3 python3-venv python3-pip`
 
