@@ -1,12 +1,12 @@
 import sciter
 import daswr
 import threading,time
-
- 
-
+import urllib.request 
+import bleach,datetime
+VERSION="0.1"
 class Gui(sciter.Window):
     def __init__(self):
-        super().__init__(ismain=True, uni_theme=False,debug=True,resizeable=False,size=[800,260])
+        super().__init__(ismain=True, uni_theme=False,debug=True,resizeable=False,size=[800,260+80])
         self.set_title("Discord Audio Streaming WorkaRound")
         self.WIRING_THREAD=None
 
@@ -35,7 +35,20 @@ class Gui(sciter.Window):
         while self.WIRING_THREAD:
             daswr.rewire(mic,pids,out)
             time.sleep(1)
+    
+    
 
+    @sciter.script
+    def getMOTD(self):
+        try:
+            content=""
+            with urllib.request.urlopen("https://raw.githubusercontent.com/daswr/daswr/master/motd/v"+VERSION+".html?time="+ datetime.now()) as resp:
+                content = resp.read()
+            content=content.decode("utf-8")
+            content=bleach.clean(content)
+            return content
+        except:
+            return ""
 
     @sciter.script
     def stopStream(self):
@@ -82,6 +95,7 @@ class Gui(sciter.Window):
                 "name":",".join(str(x) for x in v["pids"]),
                 "description":title,
             })
+        out.sort(key=lambda x: x["description"])
         return out
 
 

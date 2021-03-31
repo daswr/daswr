@@ -16,6 +16,9 @@
             overflow: hidden;
             font-family: monospace;
         }
+        #motd{
+            font-size: 14px;
+        }
         body{
             font-size:16px;
             
@@ -80,6 +83,7 @@
             hit-margin: -30000px;
         }
        
+
     </style>
 
 </head>
@@ -104,9 +108,10 @@
     <div id="controls">
         <button id="stream">Stream</button> 
         <button id="refresh">Refresh</button> 
+
         <div id="status">Select the input, output and application. Then press Stream to start.</div>
     </div>
-
+    <div id="motd"></div>
 
 <script type="text/tiscript">
         const DEFAULT_STATUS="Select the input, output and application. Then press Stream to start.";
@@ -144,6 +149,9 @@
         function reload() {
             setStatus("Loading...");
             self.timer(500,function(){
+
+                // MOTD
+                self.select("#motd").html=view.getMOTD();
 
                 // Reload sources
                 const sources = view.listSources();

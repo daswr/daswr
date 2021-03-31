@@ -1,5 +1,7 @@
 import pulsectl,re,psutil
 from xdo import Xdo
+import xutil
+import getpass
 
 PREFIX="daswr"
 PULSE=pulsectl.Pulse(PREFIX) 
@@ -131,16 +133,32 @@ def listSources():
     return sources
 
 
+def _getAllProcesses(processes,parent):
+    processes.append(parent)
+    for c in psutil.Process(pid=parent).children(recursive=True):
+        processes.append(c.pid)   
+
 def listProcesses():
     processes={}
+    windowsList=xutil.getWindows()
+    pids=[]
     for proc in psutil.process_iter():
-        pinfo = proc.as_dict(attrs=['pid', 'name'])
-        windows=XDO.search_windows(pid=pinfo["pid"])
-        if len(windows)>0:
-            for win in windows:
-                winTitleB=XDO.get_window_name(win)
-                if winTitleB:
-                    winTitle=str(XDO.get_window_name(win),'utf-8')
+        _getAllProcesses(pids,proc.pid)
+
+    for proc in pids:
+        try:
+            pinfo = psutil.Process(pid=proc).as_dict(attrs=['pid', 'name',"username"])
+            if pinfo["username"]!=getpass.getuser(): continue
+
+            windows=xutil.getWindowsByPid(pinfo["pid"],windowsList)
+            # windows=XDO.search_windows(pid=pinfo["pid"])
+            if len(windows)>0:
+                for win in windows:
+                    # winTitleB=XDO.get_window_name(win)
+                    # winTitle="???"
+                    # if winTitleB:    winTitle=str(XDO.get_window_name(win),'utf-8')
+                    winTitle=win["name"]
+                    
                     if not winTitle in processes:
                         processes[winTitle]={
                             "pids":[],
@@ -149,6 +167,14 @@ def listProcesses():
                         }                    
                     if not pinfo["pid"] in processes[winTitle]["pids"]: processes[winTitle]["pids"].append(pinfo["pid"])
                     if not pinfo["name"] in processes[winTitle]["names"]: processes[winTitle]["names"].append(pinfo["name"])          
+            else:
+                processes[pinfo["name"]]={
+                    "pids":[pinfo["pid"]],
+                    "title":pinfo["name"],
+                    "names":[pinfo["name"]]
+                }              
+        except:
+            pass
     return processes
 
 
@@ -243,14 +269,16 @@ def connectAppToSink(pids,sinkName,sinkId=None,unload=False):
 
 
 def selectProcessesWithClick():
-    win=XDO.select_window_with_click()
-    if win:
-        parentPid=int(XDO.get_pid_window(win))
-        out=[parentPid]
-        for c in psutil.Process(pid=parentPid).children(recursive=True):
-            out.append(c.pid)
-        return out
-    return None
+    out=[]
+    parentPids=xutil.getWinByClick()
+    try:
+        for parentPid in parentPids:
+            _getAllProcesses(out,parentPid)
+            # for c in psutil.Process(pid=parentPid).children(recursive=True):
+            #     out.append(c.pid)   
+    except: 
+        pass
+    return out
 
 def rewire(mic,app_pids,out,loadAndSave=None):
     global LAST_WIRING
