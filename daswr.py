@@ -138,8 +138,9 @@ def listProcesses():
         windows=XDO.search_windows(pid=pinfo["pid"])
         if len(windows)>0:
             for win in windows:
-                winTitle=str(XDO.get_window_name(win),'utf-8')
-                if winTitle:
+                winTitleB=XDO.get_window_name(win)
+                if winTitleB:
+                    winTitle=str(XDO.get_window_name(win),'utf-8')
                     if not winTitle in processes:
                         processes[winTitle]={
                             "pids":[],
