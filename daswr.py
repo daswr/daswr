@@ -259,12 +259,12 @@ def connectAppToSink(pids,sinkName,sinkId=None,unload=False):
         if "sink" in i and i["sink"] == destSink:
             print("App ",i["index"]," already connected to sink")
             continue
-        PULSE.sink_input_move(i["index"],destSink)
         if not unload: 
             print("Connect ",i["index"]," to ",destSink)
             UNLOAD_QUEUE.append(lambda: connectAppToSink(pids,sinkName=None,sinkId=destSink,unload=True)  )
         else:
             print("Connect ",i["index"]," to ",destSink," (unload)")
+        PULSE.sink_input_move(i["index"],destSink)
 
 
 
