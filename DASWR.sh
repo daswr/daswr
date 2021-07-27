@@ -5,5 +5,6 @@ pip3 install psutil
 pip3 install pysciter
 pip3 install bleach
 pip3 install python-libxdo 
-pip install python-xlib
+pip3 install python-xlib
+pip3 install wheel
 PATH="$PATH:$PWD/sciter/bin.lnx/x64" python3 GUI.py 
