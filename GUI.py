@@ -6,7 +6,7 @@ import bleach,datetime
 VERSION="0.1"
 class Gui(sciter.Window):
     def __init__(self):
-        super().__init__(ismain=True, uni_theme=False,debug=True,resizeable=False,size=[800,260+80])
+        super().__init__(ismain=True, uni_theme=False,debug=False,resizeable=False,size=[800,260+80])
         self.set_title("Discord Audio Streaming WorkaRound")
         self.WIRING_THREAD=None
 
