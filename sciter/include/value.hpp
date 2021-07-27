@@ -96,6 +96,7 @@
 
       value( bool v )           { ValueInit(this); ValueIntDataSet(this, v?1:0, T_BOOL, 0); }
       value( int  v )           { ValueInit(this); ValueIntDataSet(this, v, T_INT, 0); }
+      value( unsigned int v )   { ValueInit(this); ValueIntDataSet(this, int(v), T_INT, 0); }
       value( double v )         { ValueInit(this); ValueFloatDataSet(this, v, T_FLOAT, 0); }
       value( float v )          { ValueInit(this); ValueFloatDataSet(this, v, T_FLOAT, 0); }
 
@@ -114,6 +115,8 @@
       value(const std::array<T,N>& arr) { ValueInit(this); for (unsigned i = 0; i < N; ++i) set_item(int(i), value(arr[i])); }
       value( const native_function_t& nfr );
 #endif
+          
+      template<typename T> value(const T& v) : value(setter(v)) {;}
           
       static value currency( INT64 v )  { value t; ValueInt64DataSet(&t, v, T_CURRENCY, 0); return t;}
       static value date( INT64 v, bool is_utc = true /* true if ft is UTC*/ )      { value t; ValueInt64DataSet(&t, v, T_DATE, is_utc);  return t;}
@@ -368,7 +371,7 @@
         return defv;
       }
 
-      template<typename T> T get() const { return getter(static_cast<T *>(0)); }
+      template<typename T> T get() const { return getter(*this,static_cast<T *>(nullptr)); }
 
       static value from_string(const WCHAR* s, size_t len = 0, VALUE_STRING_CVT_TYPE ct = CVT_SIMPLE)
       {
@@ -599,32 +602,36 @@
         return false;
       }
 
-      // C++ is so ... C++, sigh. Welcome to ugly thunks, gentlemen: 
-      int      getter(int*) const { return get(0); }
-      unsigned getter(unsigned*) const { return (unsigned)get(0); }
-      bool     getter(bool*) const { return get(false); }
-      double   getter(double*) const { return get(0.0); }
-      float    getter(float*) const { return (float)get(0.0); }
-      string   getter(string*) const { return to_string(); }
-#ifdef CPP11
-      astring  getter(astring*) const { aux::w2utf a(to_string()); return astring(a.c_str(), a.length()); }
-#endif
-      value    getter(value*) const { return *this; }
-
-      std::vector<byte> 
-               getter(std::vector<byte>*) const { aux::bytes bs = get_bytes(); return std::vector<byte>(bs.start, bs.end()); }
-
-      template<typename T> std::vector<T> 
-               getter(std::vector<T>*) const {
-                 std::vector<T> out;
-                 if (this->is_array_like()) { 
-                   int n = this->length();
-                   for (int i = 0; i < n; ++i) out.push_back(this->get_item(i).get<T>());
-                 }
-                 return out;
-               }
-
     };
+
+    inline int getter(const value& v, int*) { return v.get(0); }
+    inline unsigned getter(const value& v, unsigned*) { return (unsigned)v.get(0); }
+    inline bool     getter(const value& v, bool*) { return v.get(false); }
+    inline double   getter(const value& v, double*) { return v.get(0.0); }
+    inline float    getter(const value& v, float*) { return (float)v.get(0.0); }
+    inline string   getter(const value& v, string*) { return v.to_string(); }
+#ifdef CPP11
+    inline astring  getter(const value& v, astring*) { aux::w2utf a(v.to_string()); return astring(a.c_str(), a.length()); }
+#endif
+    inline value    getter(const value& v, value*) { return v; }
+
+    inline std::vector<byte>
+      getter(const value& v, std::vector<byte>*) { aux::bytes bs = v.get_bytes(); return std::vector<byte>(bs.start, bs.end()); }
+
+    template<typename T> inline std::vector<T>
+      getter(const value& v, std::vector<T>*) {
+                 std::vector<T> out;
+        if (v.is_array_like()) {
+          int n = v.length();
+          for (int i = 0; i < n; ++i) out.push_back(v.get_item(i).get<T>());
+        }
+        return out;
+    }
+
+    // setter - free standing conversion of T to sciter::value.
+    // NOTE this function is deliberatly left not implemented - it is just a prototype
+    template<typename T>  
+       inline value setter(const T& v); 
       
     // value by key bidirectional proxy/accessor 
     class value_key_a
@@ -718,61 +725,70 @@
       ValueNativeFunctorSet(this, native_function::invoke_impl, native_function::release_impl, pnf );
     }
 
-    // vfunc(native function) is a wrapper that produces sciter::value from native function
+    // value(native function) is a wrapper that produces sciter::value from native function
     // see uminimal sample 
+
     template<typename R> 
-    inline value vfunc( R(*func)() ) {
-      return value([func](unsigned int argc, const value* argv) -> value { R r = func(); return value(r); }); 
+    inline value setter(R(*func)()) {
+      native_function_t tf = [func](unsigned int argc, const value* argv) -> value { R r = func(); return value(r); };
+      return value(tf);
     }
+
     template<typename R, typename T1> 
-    inline value vfunc( R(*func)(T1 t1) ) {
-      return value([func](unsigned int argc, const value* argv) -> value { 
-          R r = func(argc >= 1? argv[0].get<T1>(): T1() ); 
+    inline value setter( R(*func)(T1 t1) ) {
+      native_function_t tf = [func](unsigned int argc, const value* argv) -> value {
+        R r = func(argc >= 1 ? argv[0].get<T1>() : T1());
           return value(r); 
-      }); 
+      };
+      return value(tf); 
     }
+
     template<typename R, typename T1, typename T2> 
-    inline value vfunc( R(*func)(T1 t1,T2 t2) ) {
-      return value([func](unsigned int argc, const value* argv) -> value { 
-          R r = func(argc >= 1? argv[0].get<T1>(): T1(),
-                    argc >= 2? argv[1].get<T2>(): T2() ); 
+    inline value setter( R(*func)(T1 t1,T2 t2) ) {
+      native_function_t tf = [func](unsigned int argc, const value* argv) -> value {
+        R r = func(argc >= 1 ? argv[0].get<T1>() : T1(),
+          argc >= 2 ? argv[1].get<T2>() : T2());
           return value(r); 
-      }); 
+      };
+      return value(tf); 
     }
     template<typename R, typename T1, typename T2, typename T3> 
-    inline value vfunc( R(*func)(T1 t1,T2 t2,T3 t3) ) {
-      return value([func](unsigned int argc, const value* argv) -> value { 
-          R r = func(argc >= 1? argv[0].get<T1>(): T1(),
-                    argc >= 2? argv[1].get<T2>(): T2(),
-                    argc >= 3? argv[2].get<T3>(): T3()); 
+    inline value setter( R(*func)(T1 t1,T2 t2,T3 t3) ) {
+      native_function_t tf = [func](unsigned int argc, const value* argv) -> value {
+        R r = func(argc >= 1 ? argv[0].get<T1>() : T1(),
+          argc >= 2 ? argv[1].get<T2>() : T2(),
+          argc >= 3 ? argv[2].get<T3>() : T3());
           return value(r); 
-      }); 
+      };
+      return value(tf); 
     }
     template<typename R, typename T1, typename T2, typename T3, typename T4> 
-    inline value vfunc( R(*func)(T1 t1,T2 t2,T3 t3,T4 t4) ) {
-      return value([func](unsigned int argc, const value* argv) -> value { 
+    inline value setter( R(*func)(T1 t1,T2 t2,T3 t3,T4 t4) ) {
+      native_function_t tf = [func](unsigned int argc, const value* argv) -> value { 
           R r = func(argc >= 1? argv[0].get<T1>(): T1(),
                     argc >= 2? argv[1].get<T2>(): T2(),
                     argc >= 3? argv[2].get<T3>(): T3(),
                     argc >= 4? argv[3].get<T4>(): T4()); 
           return value(r); 
-      }); 
+      }; 
+      return value(tf);
     }
 
     template<typename R, typename T1, typename T2, typename T3, typename T4, typename T5>
-    inline value vfunc( R(*func)(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)) {
-      return value([func](unsigned int argc, const value *argv) -> value {
+    inline value setter( R(*func)(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5)) {
+      native_function_t tf = [func](unsigned int argc, const value *argv) -> value {
         R r = func(argc >= 1 ? argv[0].get<T1>() : T1(),
           argc >= 2 ? argv[1].get<T2>() : T2(),
           argc >= 3 ? argv[2].get<T3>() : T3(),
           argc >= 4 ? argv[3].get<T4>() : T4(),
           argc >= 5 ? argv[4].get<T5>() : T5());
         return value(r);
-      });
+      };
+      return value(tf);
     }
     template<typename R, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
-    inline value vfunc( R(*func)(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)) {
-      return value([func](unsigned int argc, const value *argv) -> value {
+    inline value setter( R(*func)(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5, T6 t6)) {
+      native_function_t tf = [func](unsigned int argc, const value *argv) -> value {
         R r = func(argc >= 1 ? argv[0].get<T1>() : T1(),
           argc >= 2 ? argv[1].get<T2>() : T2(),
           argc >= 3 ? argv[2].get<T3>() : T3(),
@@ -780,55 +796,61 @@
           argc >= 5 ? argv[4].get<T5>() : T5(),
           argc >= 6 ? argv[5].get<T6>() : T6());
         return value(r);
-      });
+      };
+      return value(tf);
     }
-
 
     // versions of the above but for generic std::function
     template<typename R>
-      inline value vfunc( std::function<R()> func ) 
+      inline value setter( std::function<R()> func ) 
       {
-         return value([func](unsigned int argc, const value* argv) -> value { 
-            R r = func(); return value(r); 
-         }); 
+        native_function_t tf = [func](unsigned int argc, const value* argv) -> value { R r = func(); return value(r); };
+        return value(tf);
       }
 
     template<typename R,typename P0>
-      inline value vfunc( std::function<R(P0)> func )
+      inline value setter( std::function<R(P0)> func )
       {
-        return value([func](unsigned int argc, const value* argv) -> value { 
-          R r = func(argc >= 1? argv[0].get<P0>(): P0() ); 
-          return value(r); }); 
+        native_function_t tf = [func](unsigned int argc, const value* argv) -> value {
+          R r = func(argc >= 1 ? argv[0].get<P0>() : P0());
+          return value(r);
+        };
+        return value(tf);
       }
     template<typename R,typename P0,typename P1>
-      inline value vfunc( std::function<R(P0,P1)> func )
+      inline value setter( std::function<R(P0,P1)> func )
       {
-        return value([func](unsigned int argc, const value* argv) -> value { 
+        native_function_t tf = [func](unsigned int argc, const value* argv) -> value { 
           R r = func(argc >= 1? argv[0].get<P0>(): P0(),
                      argc >= 2? argv[1].get<P1>(): P1() ); 
-          return value(r); }); 
+          return value(r); 
+        };
+        return value(tf);
       }
 
     template<typename R, typename P0, typename P1, typename P2> 
-      inline value vfunc( std::function<R(P0,P1,P2)> func ) 
+      inline value setter( std::function<R(P0,P1,P2)> func )
       {
-        return value([func](unsigned int argc, const value* argv) -> value { 
+        native_function_t tf = [func](unsigned int argc, const value* argv) -> value { 
           R r = func(argc >= 1? argv[0].get<P0>(): P0(),
                     argc >= 2? argv[1].get<P1>(): P1(),
                     argc >= 3? argv[2].get<P2>(): P2()); 
-          return value(r); }); 
+          return value(r); 
+        }; 
+        return value(tf);
       }
 
     template<typename R, typename P0, typename P1, typename P2, typename P3> 
-      inline value vfunc( std::function<R(P0,P1,P2,P3)> func ) {
-        return value([func](unsigned int argc, const value* argv) -> value { 
+      inline value setter( std::function<R(P0,P1,P2,P3)> func ) {
+        native_function_t tf = [func](unsigned int argc, const value* argv) -> value { 
             R r = func(argc >= 1? argv[0].get<P0>(): P0(),
                       argc >= 2? argv[1].get<P1>(): P1(),
                       argc >= 3? argv[2].get<P2>(): P2(),
                       argc >= 4? argv[3].get<P3>(): P3()); 
-            return value(r); }); 
+            return value(r); 
+        }; 
+        return value(tf);
       }
-
 
   }
 #endif

@@ -10,7 +10,26 @@
       <td width="60" nowrap valign="top" align="center">Build#</td>
       <td width="78" nowrap valign="top" align="center">Date</td>
       <td align="center">Updates</td></tr>
-    <tr><td valign="top" bgcolor="#fdfff6">4.4.6.3 r8571</td><td nowrap valign="top" align="center">2021-03-24</td><td>Fixes:
+    <tr><td valign="top" bgcolor="#fdfff6">4.4.8.3</td><td nowrap valign="top" align="center">2021-07-04</td><td>Various fixes and features to match Sciter.JS, see:&nbsp;<a href="https://github.com/c-smile/sciter-js-sdk/blob/main/logfile.md">sciter-js-sdk/logfile.md at main · c-smile/sciter-js-sdk (github.com)</a></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.7.0</td><td nowrap valign="top" align="center">2021-04-08</td><td>Unified API: ISciterAPI uses the same structure (list of functions) on all platforms and variants (Sciter and Sciter.Lite). Functions that are not available on particular platform/variant are set to NULL.
+					<p>Note: that is breaking change for Rust/Go/Python/C# wrappers - they need to be updated.</p><p>Fixes:</p>
+					<ul><li>fix of scrollable rendering;</li>
+						<li><code>element.value = ...;</code> rollback to 4.4.5.11 state.&nbsp;</li>
+						<li>[select|dropdown] fix of first item set when @novalue is used.</li>
+						<li>[drawing] fix of <code>position:absolute</code> / <code>outline</code> drawing.</li>
+						<li><code>behavior:virtual-list;</code> fix of <a href="https://sciter.com/forums/topic/bug-scroll-indicator-not-work/">https://sciter.com/forums/topic/bug-scroll-indicator-not-work/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.6</td><td nowrap valign="top" align="center">2021-04-08</td><td>Fixes:
+					<ul><li>Fix of issues mentioned here: <a href="https://sciter.com/forums/topic/plussample-not-work/">https://sciter.com/forums/topic/plussample-not-work/</a>&nbsp;</li>
+						<li>[sciter] form.value = ... fix;</li>
+						<li>[scrollable] 1px off at last position;</li>
+						<li>[osx] scroll fixes;</li>
+						<li>[behavior:calendar] $(input).calendar.mode = &quot;months&quot;; or &lt;input|calendar mode=&quot;months&quot; /&gt;</li>
+						<li>[behavior:virtual-list] fix of element.vlist.navigate(&quot;start&quot;|&quot;end&quot;) method;</li>
+						<li>scrollanimationstart and scrollanimationend events;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.4</td><td nowrap valign="top" align="center">2021-03-28</td><td>Fixes:
+					<ul><li>Attempt to restor WinXP compatibility;</li>
+						<li>Printing fixes;</li>
+						<li>[osx] touchpad scrolling again.</li>
+						<li>[sciter] <code>form.value = ...</code>&nbsp;fix;&nbsp;</li>
+						<li><code>element.selection.text</code> fix;</li>
+						<li>fix of AV here: <a href="https://sciter.com/forums/topic/mixing-elementtabs-and-reactor/">https://sciter.com/forums/topic/mixing-elementtabs-and-reactor/</a>&nbsp;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.3 r8571</td><td nowrap valign="top" align="center">2021-03-24</td><td>Fixes:
 					<ul><li>[reactor] fix of update() problem introduced in previous build;</li>
 						<li>[osx] touch scrolling fix;</li></ul></td></tr><tr><td valign="top" bgcolor="#fdfff6">4.4.6.3</td><td nowrap valign="top" align="center">2021-03-23</td><td>
 					
